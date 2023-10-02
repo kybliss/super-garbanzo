@@ -30,23 +30,28 @@ inquirer.prompt([
         choices: options,
     }
 ])
-.then((answers) => {
-    const choice = answers.choice;
-    if (choice === "View all roles"){
-        db.query("SELECT * FROM roles").then((results) => {
-            console.log(results)
+.then( function (answers) {
+    const choice = answers.userChoice;
+    switch (choice) {
+        case "View all roles": {
+        db.promise().query("SELECT * FROM roles").then(([data]) => {
+            console.log(data);
         });
-    } else if (choice === "View all departments"){
-        db.query("SELECT * FROM deparments").then((results) => {
-            console.log(results);
+        break;
+    } case "View all departments":
+        db.promise().query("SELECT * FROM departments").then(([data]) => {
+            console.log(data);
+        })
+        break;
+     case "View all employees": {
+        db.promise().query("SELECT * FROM employees").then(([data]) => {
+            console.log(data);
         });
-    } else if (choice === "View all employees"){
-        db.query("SELECT * FROM employees").then((results) => {
-            console.log(results);
-        });
+        break;
+    }
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+//   });
