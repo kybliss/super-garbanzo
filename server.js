@@ -20,24 +20,33 @@ const db = mysql.createConnection(
 
 // connection.connect();
 
+options = ['View all roles', 'View all departments', 'View all employees'];
+
 inquirer.prompt([
     {
         type: 'list',
         name: 'userChoice',
         message: 'What would you like to do?',
-        choices: ['View all roles', 'View all departments', 'Update employee roles', 'Update department roles']
+        choices: options,
     }
 ])
-.then((data) => {
+.then((answers) => {
+    const choice = answers.choice;
+    if (choice === "View all roles"){
+        db.query("SELECT * FROM roles").then((results) => {
+            console.log(results)
+        });
+    } else if (choice === "View all departments"){
+        db.query("SELECT * FROM deparments").then((results) => {
+            console.log(results);
+        });
+    } else if (choice === "View all employees"){
+        db.query("SELECT * FROM employees").then((results) => {
+            console.log(results);
+        });
+    }
+});
 
-})
-
-// const app = inquirer.prompt([
-//     {
-        
-//     }
-// ]);
-
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-//   });
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
